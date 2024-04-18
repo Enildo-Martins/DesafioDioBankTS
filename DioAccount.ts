@@ -1,55 +1,55 @@
-export abstract class DioAccount {
-    private name: string
-    private accountNumber: number
-    private balance: number = 0
-    status: boolean = true
+export class DioAccount {
+  private name: string;
+  private accountNumber: number;
+  private balance: number = 0;
+  private status: boolean = true;
 
-    constructor(name: string, accountNumber: number){
-        this.name = name
-        this.accountNumber = accountNumber
-    }
+  constructor(name: string, accountNumber: number) {
+    this.name = name;
+    this.accountNumber = accountNumber;
+  }
 
-    
-    public setName(name: string) {
-        this.name = name;
-    }
-    public getName(): string {
-        return this.name
-    }
+  public getName(): string {
+    return this.name;
+  }
 
-    public setAccountNumber(accountNumber: number) {
-        this.accountNumber = accountNumber;
-    }
-    public getAccountNumber(): number {
-        return this.accountNumber
-    }
-    
-    public setBalance(balance: number) {
-        this.balance = balance;
-    }
-    public getBalance(): number {
-        return this.balance
-    }
+  public getAccountNumber(): number {
+    return this.accountNumber;
+  }
 
-    desposit = (): void => {
-        if(this.validateStatus()){
-        console.log("You deposited money into your account")
-        }
-    }
+  public setBalance(balance: number) {
+    this.balance = balance;
+  }
+  public getBalance(): number {
+    return this.balance;
+  }
 
-    whithdraw = (): void => {
-        console.log("You withdrew money from your account")
+  deposit = (deposit: number): void => {
+    if (this.validateStatus()) {
+      this.balance += deposit;
+      console.log("Você depositou: ", deposit);
+      console.log("Saldo atual: ", this.balance);
+    } else {
+      throw new Error("Conta inativa");
     }
+  };
 
-    getBalnce = (): void => {
-        console.log(this.balance)
+  whithdraw = (whithdraw: number): void => {
+    if (this.validateStatus() && this.balance >= whithdraw) {
+      this.balance -= whithdraw;
+      console.log("Você sacou: ", whithdraw);
+      console.log("Saldo atual: ", this.balance);
+    } else {
+      throw new Error(
+        "Saque indisponível. Conta inativa ou saldo insuficiente."
+      );
     }
+  };
 
-    private validateStatus(): boolean{
-        if(this.status){
-            return this.status
-        }
-
-        throw new Error("Conta inativa")
+  protected validateStatus(): boolean {
+    if (this.status === true) {
+      return this.status;
     }
+    return false;
+  }
 }
